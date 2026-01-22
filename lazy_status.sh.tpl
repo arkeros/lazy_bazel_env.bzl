@@ -34,6 +34,8 @@ cat << 'EOF'
 
 This is a LAZY bazel_env - tools are compiled on first use, not upfront.
 
+Tools available (compiled on first use):
+{{tools}}
 EOF
 
 if type direnv >/dev/null 2>/dev/null; then
@@ -91,13 +93,6 @@ done
 if [[ $cleaned == 1 ]]; then
   echo "Cleaned up stale tools"
 fi
-
-cat << 'EOF'
-
-Tools available in PATH (compiled on first use):
-{{tools}}
-
-EOF
 
 set +e
 # $$ is bash's PID, $PPID is Bazel's PID.
