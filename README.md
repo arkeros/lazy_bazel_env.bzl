@@ -76,6 +76,39 @@ Then run `direnv allow` to enable it.
 3. The tool is compiled on first invocation and cached by Bazel for subsequent runs
 4. A transition ensures stable output paths so the bin directory location doesn't change
 
+## Development Setup
+
+To contribute to this project:
+
+1. Install [direnv](https://direnv.net/) and enable the shell hook
+2. Run the dev environment:
+   ```bash
+   bazel run //tools:dev
+   direnv allow
+   ```
+
+This makes the following tools available in your PATH:
+- `go` - Go toolchain
+- `gazelle` - BUILD file generator
+- `buildifier` - Starlark formatter
+- `buildozer` - Starlark refactoring tool
+- `prek` - Pre-commit hook runner
+
+Pre-commit hooks are configured for:
+- `buildifier` - formats BUILD/bzl files
+- `gazelle.check` - verifies BUILD files are up-to-date
+- `commitizen` - enforces conventional commit messages
+
+To install the pre-commit hooks:
+```bash
+prek install
+```
+
+To run hooks manually:
+```bash
+prek run --all-files
+```
+
 ## License
 
 MIT
