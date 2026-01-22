@@ -1,0 +1,16 @@
+module(
+    name = "multitool_example",
+    version = "0.0.0",
+)
+
+bazel_dep(name = "lazy_bazel_env.bzl", version = "0.0.0")
+local_path_override(
+    module_name = "lazy_bazel_env.bzl",
+    path = "../..",
+)
+
+bazel_dep(name = "rules_multitool", version = "1.11.1")
+
+multitool = use_extension("@rules_multitool//multitool:extension.bzl", "multitool")
+multitool.hub(lockfile = "//:multitool.lock.json")
+use_repo(multitool, "multitool")

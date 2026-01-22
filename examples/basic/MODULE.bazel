@@ -1,0 +1,12 @@
+module(
+    name = "basic_example",
+    version = "0.0.0",
+)
+
+bazel_dep(name = "lazy_bazel_env.bzl", version = "0.0.0")
+local_path_override(
+    module_name = "lazy_bazel_env.bzl",
+    path = "../..",
+)
+
+bazel_dep(name = "buildifier_prebuilt", version = "8.0.3")
