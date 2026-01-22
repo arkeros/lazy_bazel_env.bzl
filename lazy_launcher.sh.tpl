@@ -4,6 +4,9 @@
 
 set -euo pipefail
 
+# Save original working directory for tools that need it
+ORIGINAL_PWD="$PWD"
+
 # Find workspace root
 _bazel__get_workspace_path() {
   local workspace=$PWD
@@ -33,4 +36,5 @@ else
 fi
 
 # Run the actual tool target, passing through all arguments
-exec "$BAZEL_CMD" run --tool_tag=lazy_bazel_env:{{tool_name}} {{tool_target}} -- "$@"
+# Use --run_under to cd to the original directory so tools see the correct PWD
+exec "$BAZEL_CMD" run --tool_tag=lazy_bazel_env:{{tool_name}} --run_under="cd '$ORIGINAL_PWD' &&" {{tool_target}} -- "$@"
