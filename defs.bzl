@@ -74,7 +74,8 @@ def _lazy_bazel_env_impl(ctx):
     """Implementation for the main lazy_bazel_env rule."""
     status_script = ctx.actions.declare_file(ctx.label.name + ".sh")
 
-    tool_names = [t.basename for t in ctx.files.tool_wrappers]
+    all_names = [t.basename for t in ctx.files.tool_wrappers]
+    tool_names = [name for name in all_names if not name.startswith("_")]
     tools_list = "\n".join(["  * " + name for name in sorted(tool_names)])
 
     ctx.actions.expand_template(
@@ -86,7 +87,7 @@ def _lazy_bazel_env_impl(ctx):
             "{{label}}": str(ctx.label).removeprefix("@@"),
             "{{bin_dir}}": ctx.files.tool_wrappers[0].dirname if ctx.files.tool_wrappers else "",
             "{{tools}}": tools_list,
-            "{{tools_regex}}": "\\|".join(tool_names + ["_all_tools.txt", "_bazel_env_marker"]),
+            "{{tools_regex}}": "\\|".join(all_names + ["_all_tools.txt", "_bazel_env_marker"]),
         },
     )
 
