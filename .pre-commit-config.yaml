@@ -10,7 +10,7 @@ repos:
       - id: gazelle
         name: Gazelle
         language: system
-        entry: bazel test //:gazelle.check
+        entry: bazel test //test:gazelle.check
         files: .*\.bzl$|BUILD\.bazel$|BUILD$|MODULE\.bazel$
         pass_filenames: false
   - repo: https://github.com/commitizen-tools/commitizen

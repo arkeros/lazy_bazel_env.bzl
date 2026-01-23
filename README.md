@@ -46,6 +46,33 @@ lazy_bazel_env(
 )
 ```
 
+### With Toolchains
+
+You can also use toolchains and Make variable tools (like `$(JQ_BIN)`):
+
+```starlark
+lazy_bazel_env(
+    name = "dev",
+    toolchains = {
+        "python": "@rules_python//python:current_py_toolchain",
+        "nodejs": "@nodejs_toolchains//:resolved_toolchain",
+        "jq": "@jq_toolchains//:resolved_toolchain",
+    },
+    tools = {
+        # Lazy tools - compiled on first use
+        "buildifier": "@com_github_bazelbuild_buildtools//buildifier",
+        "go": "@rules_go//go",
+        # Eager tools - resolved from toolchain Make variables
+        "node": "$(NODE_PATH)",
+        "python": "$(PYTHON3)",
+        "jq": "$(JQ_BIN)",
+    },
+)
+```
+
+- **Toolchains** are exposed as symlinks in the `toolchains/` directory
+- **Make variable tools** like `$(JQ_BIN)` are resolved at build time from the toolchain's `TemplateVariableInfo`
+
 Then run:
 
 ```bash

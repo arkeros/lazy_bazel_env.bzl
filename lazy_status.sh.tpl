@@ -34,9 +34,17 @@ cat << 'EOF'
 
 This is a LAZY bazel_env - tools are compiled on first use, not upfront.
 
-Tools available (compiled on first use):
+Tools available:
 {{tools}}
 EOF
+
+if [[ "{{has_toolchains}}" == "True" ]]; then
+  cat << 'EOF'
+
+Toolchains:
+{{toolchains}}
+EOF
+fi
 
 if type direnv >/dev/null 2>/dev/null; then
     echo "direnv is installed"

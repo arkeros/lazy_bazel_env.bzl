@@ -7,7 +7,10 @@ gazelle_binary(
     languages = DEFAULT_LANGUAGES + [
         "@bazel_skylib_gazelle_plugin//bzl",
     ],
-    visibility = ["//:__pkg__"],
+    visibility = [
+        "//:__pkg__",
+        "//test:__pkg__",
+    ],
 )
 
 gazelle(
