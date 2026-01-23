@@ -37,4 +37,5 @@ fi
 
 # Run the actual tool target, passing through all arguments
 # Use --run_under to cd to the original directory so tools see the correct PWD
-exec "$BAZEL_CMD" run --tool_tag=lazy_bazel_env:{{tool_name}} --run_under="cd '$ORIGINAL_PWD' &&" {{tool_target}} -- "$@"
+# Set BAZEL_BINDIR=. for aspect_rules_js js_binary targets
+exec "$BAZEL_CMD" run --tool_tag=lazy_bazel_env:{{tool_name}} --run_under="export BAZEL_BINDIR=. JS_BINARY__NO_CD_BINDIR=1 && cd '$ORIGINAL_PWD' &&" {{tool_target}} -- "$@"
